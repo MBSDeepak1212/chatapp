@@ -1,14 +1,125 @@
-/* body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
+body {
+    background-color: #222;
+    color: white;
   }
   
-  #chat-window {
-    width: 60%;
-    height: 70vh;
-    margin: 0 auto;
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 100vh;
+    padding: 1em;
+    box-sizing: border-box;
+  }
+  
+  .users, .messages, .messaging {
+    display: flex;
+    flex-direction: column;
+    margin: 0 1em;
+    padding: 1em;
+    background-color: #333;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    border-radius: 10px;
+  }
+  
+  .users {
+    min-width: 10%;
+    height: 80%;
+    /* margin: 10px;
+    padding: 10px; */
+    text-align: center;
+  }
+
+  #active-users {
+    text-align: left;
+  }
+  
+  .messages {
+    list-style-type: none;
+    text-align: center;
+    /* margin: 10px;
+    padding: 10px; */
+    overflow: auto;
+    height: 80%;
+    min-width: 80%;
+  }
+
+  #print-messages{
+    text-align: left;
+  }
+  
+  .messages .message {
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  .messages .time {
+    font-size: 12px;
+    color: gray;
+  }
+  
+  .messages .user {
+    font-weight: bold;
+  }
+  
+  #active-users {
+    text-align: left;
+    margin-top: 20px;
+  }
+  
+  #active-users ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #active-users li {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  
+  .messaging {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    margin: 10px;
     padding: 10px;
-    background
-   */
+    height: 50px;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+  }
+  
+  .messaging input[type="text"] {
+    width: 86%;
+    height: 100%;
+    font-size: 18px;
+    border: 0px;
+    padding: 8px;
+    flex-grow: 1;
+    margin-right: 10px;
+    border-radius: 20px;
+  }
+  
+  .messaging button {
+    width: 10%;
+    height: 100%;
+    font-size: 18px;
+    border: 10px;
+    border-radius: 10px;
+    background-color: #4CAF50;
+    color: black;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .messaging button:hover {
+    background-color: #3e8e41;
+  }
+  
+  

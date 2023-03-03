@@ -2,18 +2,30 @@
 <html>
   <head>
     <title>Chat Application</title>
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <div id="chat-window">
-      <div id="output"></div>
-      <div id="feedback"></div>
+    <div class="container">
+      <!-- Printing Users -->
+      <div class="users">
+        <h2>Active Users</h2>
+        <div id="print-users"></div>
+      </div>
+      <!-- Printing Message -->
+      <div class="messages" id="messages-print">
+        <h2>Messages</h2>
+        <div id="print-messages"></div>
+      </div>
+      <!-- Messanging Area -->
+      <div class="messaging">
+        <form id="message-form">
+          <input type="text" id="message-input" placeholder="Type a message ...">
+          <button type="submit">Send</button>
+        </form>
+      </div>
     </div>
-    <div id="users"></div>
-    <form id="message-form">
-      <input id="message" type="text" placeholder="Message" />
-      <button type="submit">Send</button>
-    </form>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
@@ -28,23 +40,59 @@
         for (let key in users) {
           userList += '<li>' + users[key] + '</li>';
         }
-        document.getElementById('users').innerHTML = '<ul>' + userList + '</ul>';
+        document.getElementById('print-users').innerHTML = '<ul id="active-users">' + userList + '</ul>';
       });
 
       // Submit message
       document.getElementById('message-form').addEventListener('submit', (e) => {
         e.preventDefault();
-        const message = document.getElementById('message').value;
-        socket.emit('chat message', message);
-        document.getElementById('message').value = '';
+        const message = document.getElementById('message-input').value.trim();
+        if (message){
+          socket.emit('chat message', message);
+          document.getElementById('message-input').value = '';
+        }        
       });
 
+      function scrollToBottom() {
+        const container = document.getElementById('messages-print');
+        container.scrollTop = container.scrollHeight;
+      }
+
+      // Add a new message to the message list
+      function addMessage(username, message, time) {
+        var messageList = document.getElementById("print-messages");
+
+        var li = document.createElement("li");
+        var spanUsername = document.createElement("span");
+        spanUsername.classList.add("user");
+        var spanTime = document.createElement("span");
+        spanTime.classList.add("time");
+        var spanMessage = document.createElement("span");
+        spanMessage.classList.add("message");
+
+        spanUsername.innerText = username;
+        spanTime.innerText = " [" + time + "] : ";
+        spanMessage.innerText = message;
+
+        li.appendChild(spanUsername);
+        li.appendChild(spanTime);
+        li.appendChild(spanMessage);
+
+        messageList.appendChild(li);
+        scrollToBottom();
+        // messageList.scrollIntoView();
+        // messageList.scrollTop = messageList.scrollHeight;
+      }
+
       // Display received message
-      socket.on('chat message', (msg) => {
-        const output = document.getElementById('output');
-        const newMsg = '<p><strong>' + msg.user + ': </strong>' + msg.message + ' <em>(' + msg.time + ')</em></p>';
-        output.innerHTML += newMsg;
-        output.scrollTop = output.scrollHeight;
+      socket.on('chat message', function(data) {
+        addMessage(data.user,data.message,data.time);
+
+        // const output = document.getElementById('print-messages');
+        // const newMsg = '<p><strong>' + msg.user + ': </strong>' + msg.message + ' <em>(' + msg.time + ')</em></p>';
+        // output.innerHTML += newMsg;
+        // output.scrollTop = output.scrollHeight;
+        // output.scrollIntoView();
       });
     </script>
   </body>
