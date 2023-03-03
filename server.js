@@ -15,7 +15,7 @@ let users = {};
 let messages = [];
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
+    // console.log('a user connected');
 
     socket.on('new user', (username) => {
         users[socket.id] = username;
